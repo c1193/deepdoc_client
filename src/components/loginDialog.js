@@ -8,26 +8,36 @@ import {
   DialogActions,
 } from "@mui/material";
 import axios from "axios";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 import { setSession } from "../sessionSlice";
 
 export default function Login() {
   const session = useSelector((state) => state.session);
   const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("deepdocadmin");
+  const [password, setPassword] = useState("@deepdoc2025");
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKENDURL || "http://localhost:8000"}/login`, {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        `${
+          process.env.NEXT_PUBLIC_BACKENDURL || "http://localhost:8000"
+        }/login`,
+        {
+          username,
+          password,
+        }
+      );
       if (response) {
-        dispatch(setSession({ access_token: response.data.access_token, refesh_token: response.data.refesh_token}));
+        dispatch(
+          setSession({
+            access_token: response.data.access_token,
+            refesh_token: response.data.refesh_token,
+          })
+        );
         setUsername("");
         setPassword("");
-        console.log(response)
+        console.log(response);
       } else {
         alert("invalid username or password");
       }
@@ -37,9 +47,12 @@ export default function Login() {
   };
 
   return (
-    <Dialog 
+    <Dialog
+      sx={{ minWidth: 300 }}
       open={session.access_token == null}
-      onKeyDown={(e) => e.key === 'Enter' && username && password && handleLogin()}
+      onKeyDown={(e) =>
+        e.key === "Enter" && username && password && handleLogin()
+      }
     >
       <DialogTitle>Login</DialogTitle>
       <DialogContent
