@@ -124,11 +124,9 @@ export default function ProjectSubmissionForm() {
     formData.append("data", JSON.stringify(jsonData));
 
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKENDURL || "http://localhost:8000"}/uploadFiles`,
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const res = await axios.post("/api/uploadFiles", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       if (res.status === 201) {
         setLoading(false);
         setSuccess(true);

@@ -17,10 +17,8 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import Login from "../components/loginDialog";
+import { useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -33,21 +31,12 @@ export default function Result() {
     (val, index) => currentYear - index
   );
   const [targetData, setTargetData] = useState(null);
-  const session = useSelector((state) => state.session);
 
   const handleChange = async (event) => {
     setYear(event.target.value);
-    const res = await axios.get(
-      `${
-        process.env.NEXT_PUBLIC_BACKENDURL || "http://localhost:8000"
-      }/resultlist`,
-      {
-        params: { year: event.target.value },
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        },
-      }
-    );
+    const res = await axios.get("/api/resultlist", {
+      params: { year: event.target.value },
+    });
     if (res.data) {
       console.log(res.data);
       setData(res.data);
@@ -60,7 +49,6 @@ export default function Result() {
 
   return (
     <>
-      <Login />
       <Dialog
         open={targetData !== null}
         onClose={() => setTargetData(null)}
@@ -86,9 +74,6 @@ export default function Result() {
               {targetData?.result?.project_summary || "ไม่มีข้อมูล"}
             </Markdown>
           </Box>
-          {/* <Typography sx={{ mb: 2 }} variant="body2" gutterBottom>
-            {targetData?.result?.project_summary}
-          </Typography> */}
           <Typography variant="h6" gutterBottom>
             ผลการประเมิน
           </Typography>
@@ -199,27 +184,21 @@ export default function Result() {
                     <TableCell align="center">
                       {dto.result.first_score}
                     </TableCell>
-                    {/* <TableCell align="left">{dto.result.first_reason}</TableCell> */}
                     <TableCell align="center">
                       {dto.result.second_score}
                     </TableCell>
-                    {/* <TableCell align="left">{dto.result.second_reason}</TableCell> */}
                     <TableCell align="center">
                       {dto.result.third_score}
                     </TableCell>
-                    {/* <TableCell align="left">{dto.result.third_reason}</TableCell> */}
                     <TableCell align="center">
                       {dto.result.fourth_score}
                     </TableCell>
-                    {/* <TableCell align="left">{dto.result.fourth_reason}</TableCell> */}
                     <TableCell align="center">
                       {dto.result.fifth_score}
                     </TableCell>
-                    {/* <TableCell align="left">{dto.result.fifth_reason}</TableCell> */}
                     <TableCell align="center">
                       {dto.result.overall_score}
                     </TableCell>
-                    {/* <TableCell align="left">{dto.result.overall_reason}</TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

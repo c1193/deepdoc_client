@@ -1,20 +1,9 @@
-import { Box, Button, Typography, AppBar, Toolbar } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { clearSession } from "../sessionSlice";
+import { Box, Typography, AppBar, Toolbar } from "@mui/material";
 import { useRouter } from "next/router";
 
 export default function Layout({ children }) {
-  const session = useSelector((state) => state.session);
-  const dispatch = useDispatch();
   const router = useRouter();
-  
-  const handleLogout = async () => {
-    try {
-      dispatch(clearSession());
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
   return (
     <>
       <AppBar position="fixed" color="default" elevation={1} sx={{ zIndex: 9999 }}>
@@ -22,32 +11,21 @@ export default function Layout({ children }) {
           <Typography variant="h4" sx={{ mr: 2 }}>
             DeepDoc
           </Typography>
-          <Typography 
-            variant="subtitle1" 
-            sx={{ mr: 2, cursor: 'pointer' }} 
+          <Typography
+            variant="subtitle1"
+            sx={{ mr: 2, cursor: "pointer" }}
             onClick={() => router.push("/submit")}
           >
             Submit
           </Typography>
-          <Typography 
-            variant="subtitle1" 
-            sx={{ mr: 2, cursor: 'pointer' }} 
+          <Typography
+            variant="subtitle1"
+            sx={{ mr: 2, cursor: "pointer" }}
             onClick={() => router.push("/results")}
           >
             Results
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: "flex", gap: 2 }}>
-            {session.access_token != null && (
-              <Button
-                color="error"
-                variant="contained"
-                onClick={handleLogout}
-              >
-                Logout
-              </Button>
-            )}
-          </Box>
         </Toolbar>
       </AppBar>
 
@@ -66,7 +44,7 @@ export default function Layout({ children }) {
           background: "#eee",
           padding: "16px",
           textAlign: "center",
-          zIndex: 9999
+          zIndex: 9999,
         }}
       >
         <p style={{ margin: 0 }}>© 2025 DeepDoc</p>
