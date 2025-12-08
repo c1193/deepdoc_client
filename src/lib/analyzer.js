@@ -5,8 +5,8 @@ import { updateFileResult } from "./fileModel";
 export async function analyzeText(fileBuffer, fileName, fileId) {
   try {
     console.log("Analyzing...");
-    // Dynamic import to avoid webpack issues with pdf-parse
-    const pdfParse = (await import("pdf-parse")).default;
+    // pdf-parse v1.1.1 - default export is the parse function
+    const pdfParse = require("pdf-parse");
     const data = await pdfParse(fileBuffer);
     const genAI = new GoogleGenerativeAI(process.env.APIKEY);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
